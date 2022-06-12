@@ -1,49 +1,55 @@
 # FANcY Tofino Implementationn
 
-In this page, you will find all the needed code and documentation to run `FANcY`
-hardware implementation in `p4_14`. That includes the P4 code itself,
-controllers, utility scripts and an orchestrator to help us run the evaluation:
+In this page, you will find all the necessary code and documentation to run
+`FANcY's` hardware implementation in `p4_14`. That includes the P4 code itself,
+controllers, utility scripts and an orchestrator to automate different runs.
 
 * The `eval` folder contains `tofino-test.py` which is a script that is able to
   run all the different evaluation experiments. For that the script uses TCP
   `sockets` to send commands to different components involved in the eval such
-  as receiver and Tofino switches.
+  as the receiver server and the Tofino switches.
 
 * The `scripts` folder contains a set of utilities used by all the other scripts.
 
 * The `p4src` folder contains the code of `fancy` and also some special switch
-  code called `middle_switch.p4` which we use as a middle switch between fancy's
-  upstream and downstream. This switch is in charge of adding some packet drops
-  when instructed. For `fancy`, you will find two main programs `fancy.p4` and
-  `fancy_zooming.p4`. At the time of writing and due to a bug with the `SDE` we
-  used to develop the code we had to split the two main components into two
-  programs. I am currently working on translating to `p4_16` and using the
-  latest `SDE` to fix this issue.
+  code called `middle_switch.p4`, which we use as a middle switch between
+  fancy's upstream and downstream state machines. This switch is in charge of
+  adding some packet drops when instructed. For `fancy`, you will find two main
+  programs `fancy.p4` and `fancy_zooming.p4`. At the time of writing and due to
+  a bug in the `SDE` we used to develop the code we had to split the two main
+  components into two programs. We are currently working in translating to `p4_16`
+  and using the latest `SDE` to fix this issue.
 
 * The `control_plane` folder contains the control plane for our three programs.
-  For the control plane we use `run_pd_rpc.py` and a custom python server to be
-  able to listen to commands sent by the orchestrator.
+  For the control plane we use the `run_pd_rpc.py` and a custom python server
+  that listens to commands sent by the orchestrator.
+  
 
 ## Setup requirements
 
-To run our case study, you will need to have a setup with the following requirements:
+To run our case study, you will need to have a setup with the following:
 
-* Two Barefoot Tofino Switches. We used the Wedge 100BF-32X. 
+* Two Intel Tofino Switches. We used the Wedge 100BF-32X. 
     * The switches must be running the SDE version 9.2.0. 
-    * System-wide python needs to be `python2`. I know this is not ideal, but
-      the old SDE uses `python2`. You can change it like this and after revert it. 
+    * System-wide python needs to be set to `python2`. I know this is not ideal,
+      but the old SDE uses `python2`. You can revert the change after. Set the
+      symbolic link:
       ```
       sudo ln -sf $(which python2) /usr/bin/python
       ```
-    * You need to make sure your `run_pd_rpc.py` starts with `#!/usr/bin/python2`
+    * You need to make sure your `run_pd_rpc.py` runs with `python2`, and thus
+      its code starts with `#!/usr/bin/python2`
     * You need to install scapy for `python2`: `pip2 install scapy==2.4.3`.
-      Usually it gets installed with the SDE.
+      Usually it gets installed with the SDE, so probaly you won't have to do
+      anything.
 
 
 * You need two servers. One sender and one receiver.
-    * Each server should have a 100Gbe NIC. We used Mellanox ConnectX-5 100Gbps NIC.
-    * You need to install `iperf-2.1.0`. We use a flag, that is not available
-      with the `iperf` version you get from `apt-get`. To install it you can simply:
+    * Each server should have at least one 100Gbe NIC. We used Mellanox ConnectX-5
+      100Gbps NIC.
+    * You need to install `iperf-2.1.0`. We use a flag (`--sum-only`), that is
+      not available on the `iperf` version you get from `apt-get`. To install it
+      you can simply do the following:
         ```
         Install iperf version
         wget https://sourceforge.net/projects/iperf2/files/iperf-2.1.0-rc.tar.gz
@@ -54,7 +60,7 @@ To run our case study, you will need to have a setup with the following requirem
         ```
     * You need internet connectivity from the sender to the receiver and the
       Tofino switches. The orchestrator needs that to send commands. Thus, make
-      that for that you use open ports.
+      sure that there is connectivty, and the ports you use are open.
 
 ## Topology and setup
 
@@ -64,13 +70,13 @@ as depicted in the figure below:
 ![Hardware Setup](fancy-setup.png)
 
 In the figure, you can see that we are using two servers, one sender and one
-receiver. Each is connected two the first switch `tofino1` (name in our
-setup) which is running one of the `FANcY` programs.  Note, that we connect them
+receiver. Each is connected two the first switch, `tofino1` (name in our
+setup), which is running one of the `FANcY` programs.  Note, that we connect them
 to port 7 (176) and 8 (184) respectively. Then, `tofino1` is connected to `tofino4` using
 3x100G cables:
-    * Main link: this is the link `fancy` uses to send traffic to `dst` through `tofino4`. And used by `tofino4` to send traffic to `src` when it comes form `dst`.
-    * Return link:  the same but for traffic from and to `dst`.
-    * Backup path: this is the link `fancy` uses to send traffic from `src` to `dst` when a failure is detected.
+ * Main link: this is the link `fancy` uses to send traffic to `dst` through `tofino4`. And used by `tofino4` to send traffic to `src` when it comes form `dst`.
+ * Return link:  the same but for traffic from and to `dst`.
+ * Backup path: this is the link `fancy` uses to send traffic from `src` to `dst` when a failure is detected.
 
 The second switch, `tofino4` is running the program `middle_switch.p4`. This is
 a special program that simply forwards packets as described above, and as you can see

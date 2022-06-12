@@ -3,11 +3,12 @@
 This folder contains the necessary material to reproduce the results of FANcY's
 SIGCOMM 2022 paper. 
 
-You can either install all the dependencies and build the `ns3` simulator in your
-Ubuntu machine (preferably Ubuntu 18.04) or you can directly use the virtual
-machine we provide (TODO: add link to virtual machine.). The virtual machine has
-all the dependencies installed with all the required datasets as well as a clone
-of this repository at `~/fancy`. 
+You can either install all the dependencies and build the `ns3` simulator in
+your Ubuntu machine (preferably Ubuntu 18.04) or you can directly use the
+virtual machine we provide
+([VM](https://polybox.ethz.ch/index.php/s/CzZRqYXe6EUGr0L/download)). The
+virtual machine has all the dependencies installed with all the required
+datasets as well as a clone of this repository at `~/fancy`. 
 
 ## Installation 
 
@@ -23,13 +24,14 @@ In order to add our VM, you will need to have `kvm`, `qemu` and `virt-manager`
 installed in your machine. You can find a guide for Ubuntu 20.04 LTS system on
 the following [page](https://phoenixnap.com/kb/ubuntu-install-kvm).
 
-The next step is to set up the actual virtual machine. For that [download] it,
-and extract it in your machine: `tar -xvf <name>.tar.gz`. Then, start up
+The next step is to set up the actual virtual machine. For that
+[download](https://polybox.ethz.ch/index.php/s/CzZRqYXe6EUGr0L/download) it, and
+extract it in your machine: `tar -xvf <name>.tar.gz`. Then, start up the
 `virt-manager`. Create a new virtual machine, and choose Import existing disk
 image and provide the extracted image (by clicking Browse, followed by Browse
 Locally). As the operating system, choose Ubuntu 18.04 LTS. Give the VM as many
-CPUs as possible and at least 64GB of RAM (more if possible). For the evaluation,
-we used 64 cores and 128GB of RAM.
+CPUs as possible and at least 64GB of RAM (more if possible). For the
+evaluation, we used 64 cores and 128GB of RAM.
 
 :bulb: **VM credentials:**
 Username: `fancy`
@@ -103,9 +105,22 @@ If you are not using the VM, before starting, make sure you have downloaded and
 unzipped the simulation inputs. Please, for simplicity place them at
 `~/fancy/fancy_sigcomm_inputs/`.
 
+Before starting, and even if you are using the VM, make sure you are using the
+latest version of the code:
+```
+# update main code base
+cd ~/fancy/fancy-code/
+git pull
+# update simulation code.
+cd simulation
+git pull origin master
+```
+
+Now you are ready to start running the simulations:
+
 1. The first thing you have to do is to run the `run_all.py` script. You must
    replace `<fancy-code>` for the path/name of this repo. Also, this is the
-   longest command of all the evaluation. With the `FAST` flag, takes around 1.5
+   longest command of all the evaluations. With the `FAST` flag, takes around 1.5
    days with 64 cores. Thus, make sure you run this command using a `tmux`
    terminal such that it keeps running even if you close the terminal. 
 

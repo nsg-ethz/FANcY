@@ -1,7 +1,7 @@
 # FANcY: FAst In-Network GraY Failure Detection for ISPs
 
 This repo contains the implementation of the paper [FANcY: FAst In-Network GraY
-Failure Detection for ISPs](.) by Edgar Costa Molero, Stefano Visicchio and
+Failure Detection for ISPs](./) by Edgar Costa Molero, Stefano Visicchio and
 Laurent Vanbever. This work will be presented at [SIGCOMM
 '22](https://conferences.sigcomm.org/sigcomm/2022/cfp.html)
 
@@ -18,13 +18,13 @@ and demonstrate how it enables fine-grained fast rerouting.
 
 ## What can you find in this repository 
 
-* **SIGCOMM 2022 eval:** contains a step-by-step guide to reproduce the results
-  from the SIGCOMM 2022 paper. You can also find a set of scripts to easily run
-  all the simulation-based evaluations, pre-compute outputs and generate the
-  paper plots. 
+* **Eval SIGCOMM 2022:** contains a step-by-step guide to reproduce the main
+  results from the SIGCOMM 2022 paper. You can also find a set of scripts to
+  easily run all the simulation-based evaluations, pre-compute outputs and
+  generate the paper plots. 
 
 * **Installation:** few scripts that are used to install all the required
-  dependencies for the `ns3` simulator.
+  dependencies for the `ns3` simulator and plotting.
 
 * **Simulation:** git submodule to our modified `ns3` simulator. Among others,
   it includes all the scripts for the simulation-based evaluation. An
@@ -32,8 +32,8 @@ and demonstrate how it enables fine-grained fast rerouting.
   [NetSeer](https://dl.acm.org/doi/abs/10.1145/3387514.3406214) and
   [LossRadar](https://dl.acm.org/doi/10.1145/2999572.2999609) in `ns3`.
 
-* **Experiments:** python `fancy` package used to parse, orchestrate, and plot
-  the simulation-based experiments.
+* **Experiments:** python `fancy` package which is used to parse, orchestrate, and plot
+  the simulation-based experiments. Make sure you install it with `pip3`!.
 
 * **Tofino:** contains the hardware-based implementation of `FANcY`, its
   controller and some helper scripts. Furthermore, it contains a guide to
@@ -42,7 +42,8 @@ and demonstrate how it enables fine-grained fast rerouting.
 ## Quick Install
 
 In order to run the simulations, you have to install our `fancy` python package
-and the `ns3` simulator with our custom code. 
+and the `ns3` simulator with our custom code. You can easily achieve that with
+very few commands:
 
 1. Create a folder called `fancy` at your `HOME`.
 ```
@@ -54,12 +55,13 @@ mkdir ~/fancy/
 cd ~/fancy/
 # get main repo
 git clone https://github.com/nsg-ethz/FANcY.git fancy-code
+
 # get submodules (simulator)
 cd fancy-code
 git submodule update --init
 ```
 
-3. Install our custom `ns3`. Select `Y` when prompted. 
+3. Install our custom `ns3`. Select `Yes` when prompted. 
 ```
 cd ~/fancy/fancy-code/installation
 ./install-ns3.sh
@@ -71,8 +73,11 @@ cd ~/fancy/fancy-code/experiments/
 pip3 install -e .
 ```
 
-Alternatively, you can download the provided VM with the software installed and
-input files downloaded.
+Alternatively, you can download the provided
+[VM](https://polybox.ethz.ch/index.php/s/CzZRqYXe6EUGr0L/download) with the
+software installed and input files downloaded. You can find more info about how
+to add the VM
+[here](./eval_sigcomm2022/README.md#downloading-and-adding-virtual-machine).
 
 ## Contact
 
