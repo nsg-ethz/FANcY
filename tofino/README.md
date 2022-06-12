@@ -78,25 +78,25 @@ to port 7 (176) and 8 (184) respectively. Then, `tofino1` is connected to `tofin
  * Return link:  the same but for traffic from and to `dst`.
  * Backup path: this is the link `fancy` uses to send traffic from `src` to `dst` when a failure is detected.
 
-The second switch, `tofino4` is running the program `middle_switch.p4`. This is
-a special program that simply forwards packets as described above, and as you can see
-in the figure. Furthermore, during `runtime` and through the control plane, it can
-be configured such that it drops some `%` for the packets. 
+The second switch, `tofino4` is running the program `middle_switch.p4`. That is a special program that simply forwards
+packets as described above, and as you can see in the figure. Furthermore, it can be configured to drop some `%` of
+packets. This configuration can be done at `Runtime` through the controller.
 
-:warning: Note that apart from physical and internal port numbers, each port has
-a port name, `PORTX_S`. Those port names are important and are hardcoded in the
-[`p4src/includes/constants.p4` file](./p4src/includes/constants.p4#L56). In case
-you want to use different tofino ports, you must also update the mappings there
-and recompile the program. Control plane code also depends on those constant `#defines`.
+:warning: **Important**: 
+
+Apart from the physical and internal port numbers, you can see that each port also has a port
+name of the form `PORTX_S`. Those port names are important and are hardcoded in the [`p4src/includes/constants.p4`
+file](./p4src/includes/constants.p4#L56). In case you want to use different tofino ports, you must also update the
+mappings there and recompile the program. Control plane code also depends on those constant `#defines`.
 
 ## How to run and reproduce paper results
 
-:hourglass_flowing_sand: Once you have all installed, running the experiments is
-relatively easy. The expected time to run the following experiments is 20 minutes.
+:hourglass_flowing_sand: Once you have all installed, running the experiments is relatively easy. The expected time to
+run the following experiments is 20 minutes. :hourglass_flowing_sand:
 
 ### Preliminary steps
 
-1. Copy the tofino folder in the servers and tofino switches. Alternatively pull the entire repository. In the following example we have copied the content of the tofino folder at `~/fancy/`. 
+1. Copy the tofino folder in the servers and tofino switches. Alternatively pull the entire repository. In the following example we have copied the content of the tofino folder to `~/fancy/`. 
 2. Make sure the right `iperf` is installed in both servers. If not read the requirements section and install `iperf`. 
     ```
     $ iperf -v
@@ -107,12 +107,14 @@ relatively easy. The expected time to run the following experiments is 20 minute
     $ pip list | grep scapy
     scapy  2.4.3
     ```
-4. Configure sender and receiver `IPs` and `ARP` table. For that you can use [`scripts/server_setup.sh`](./scripts/server_setup.sh) utility. Do the same for both sender and receiver, but swap the ips and use the mac address of the other side. 
+4. Configure sender and receiver `IPs` and `ARP` table (just in case ARP messages are not being flooded). For that you
+   can use [`scripts/server_setup.sh`](./scripts/server_setup.sh) utility. Do the same for both sender and receiver, but
+   swap the ips and use the mac address of the other side. For example:
     ```
     cd ~/fancy/scripts/
     ./server_setup.sh <intf> <src ip> <dst ip> <dst mac>
     ```
-5. Make sure you have the `env variables` pointing to `SDE 9.2.0`.
+5. Make sure you have the `env variables` pointing to `SDE 9.2.0` in both tofino switches.
     ```
     $ echo $SDE
     /data/bf-sde-9.2.0
@@ -127,20 +129,21 @@ relatively easy. The expected time to run the following experiments is 20 minute
     ~/p4_build_new.sh -D SDE9 -D HARDWARE --with-tofino --no-graphs ~/fancy/p4src/fancy_zooming.p4
     ```
 
-    Note that our `p4_build` script is called `p4_build_new`. And we are using several preprocessor (`-D`) parameters. Also, we assume this placed at `~/fancy`.
+    Note that our `p4_build` script is called `p4_build_new`. And we are using several preprocessor (`-D`) parameters.
+    Also, we assume the code is placed at `~/fancy/`.
 
 7. Compile `middle_switch.p4` at the second switch (`tofino4`)
     ```
     ~/p4_build_new.sh --with-tofino --no-graphs ~/fancy/p4src/middle_switch.p4
     ```
 
-You are all set to start the experiments! :rocket:
+Now, we are almost all set to start the experiments! :rocket:
 
 ### Running the experiments
 
 Now we will run the experiments needed to get the case study `figure 8` from the paper. To make the experiments simple we will use [`eval/tofino-test.py`](./eval/tofino-test.py) which is an orchestrator that will make our life very easy.
 
-In order for the orchestrator to know how to send commands to the other server and tofino switches, you will need to  modify the contents of `eval/server_mappings.py` with the IP (public or private) of your two servers and switches. You can find some default ports, but feel free to change them if needed. 
+In order for the orchestrator to know how to send commands to the other server and tofino switches, you will need to  modify the contents of `eval/server_mappings.py` with the IP (public or private) of your two servers and switches. You will find some default ports, but feel free to change them if needed. 
 
 ```
 remote_mappings = {
@@ -218,4 +221,5 @@ Everything is ready to start the experiments.
 
 #### Plotting
 
-You will find instructions of how to plot the [SIGCOMM eval page](../eval_sigcomm2022/README.md#running-tofino-case-study/).
+In order to get the plot out, you can move to the [sigcomm evaluation
+page](../eval_sigcomm2022/README.md#running-tofino-case-study/). 
