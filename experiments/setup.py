@@ -31,11 +31,11 @@ setup(
     ],
     keywords='networking p4',
     license='GPLv2',
+    setup_requires=['matplotlib']
     install_requires=[
         'tabulate==0.8.9',
         'ipdb',
         'numpy',
-        'matplotlib',
         'psutil',
         'termcolor==1.1.0',
         'deprecated',

@@ -12,7 +12,7 @@ mkdir -p ${FANCY_DIR}
 ./ns3-dependencies.sh
 
 # switch to ns3 path
-NS3_PATH="/home/fancy/fancy/sigcomm-2022-fancy-code/simulation/"
+NS3_PATH="/home/fancy/fancy/fancy-code/simulation/"
 
 cd ${NS3_PATH}
 # build ns3
