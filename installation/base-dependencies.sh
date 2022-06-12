@@ -7,3 +7,4 @@ sudo apt-get -y --no-install-recommends install dvipng texlive-latex-extra texli
 # pip3
 sudo apt-get -y --no-install-recommends install python3-pip
 sudo pip3 install --upgrade pip
+sudo pip3 install --upgrade setuptools
