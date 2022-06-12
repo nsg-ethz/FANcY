@@ -212,4 +212,4 @@ Everything is ready to start the experiments.
 
 #### Plotting
 
-You will find instructions of how to plot the [SIGCOMM eval page](../eval_sigcomm2022/).
+You will find instructions of how to plot the [SIGCOMM eval page](../eval_sigcomm2022/README.md#running-tofino-case-study/).

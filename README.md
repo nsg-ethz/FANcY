@@ -53,7 +53,7 @@ mkdir ~/fancy/
 ```
 cd ~/fancy/
 # get main repo
-git clone git@gitlab.ethz.ch:nsg/employees/cedgar/projects/fancy/sigcomm-2022-fancy-code.git fancy-code
+git clone https://github.com/nsg-ethz/FANcY.git fancy-code
 # get submodules (simulator)
 cd fancy-code
 git submodule update --init
