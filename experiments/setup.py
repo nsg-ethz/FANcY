@@ -31,7 +31,7 @@ setup(
     ],
     keywords='networking p4',
     license='GPLv2',
-    setup_requires=['matplotlib'],
+    setup_requires=[],
     install_requires=[
         'tabulate==0.8.9',
         'ipdb',

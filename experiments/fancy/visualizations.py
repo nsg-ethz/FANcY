@@ -409,7 +409,8 @@ def get_detectable_prefixes_info(
 
 
 # out_path_base=/mnt/fischer/cedgar/fancy_outputs/detectable_prefixes_info/"
-def run_many_get_detectable_prefixes(processors=24, in_traces=None, out_path_base):
+def run_many_get_detectable_prefixes(
+        processors=24, in_traces=None, out_path_base=""):
 
     # create output path in case it does not exist
     subprocess.call("mkdir -p {}".format(out_path_base), shell=True)
