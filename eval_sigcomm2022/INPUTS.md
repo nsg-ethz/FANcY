@@ -1,11 +1,19 @@
 # Simulation Inputs
 
-For some of the simulation experiments, we use traces from the [The CAIDA Anonymized Internet Traces](https://www.caida.org/catalog/datasets/passive_dataset_download/). In order to be able to download them, you need to request access to CAIDA. 
+For some of the simulation experiments, we use traces from the [The CAIDA
+Anonymized Internet
+Traces](https://www.caida.org/catalog/datasets/passive_dataset_download/). In
+order to be able to download them, you need to request access to CAIDA. 
 
-Since the processing we do is not really part of the evaluation of `Fancy`, and to make your life easier, we provide you with the exact set of 
-data inputs we use for our simulations. You can download them [here](https://polybox.ethz.ch/index.php/s/w3To3lCCnwIPDlz) or if you use the provided VM, you will already find the inputs at `~/fancy/fancy_sigcomm_inputs/`.
+Since the processing we do is not really part of the evaluation of `Fancy`, and
+to make your life easier, we provide you with the exact set of data inputs we
+use for our simulations. You can download them
+[here](https://polybox.ethz.ch/index.php/s/w3To3lCCnwIPDlz) or if you use the
+provided VM, you will already find the inputs at
+`~/fancy/fancy_sigcomm_inputs/`.
 
-To download the inputs from the terminal:
+### Download and untar inputs
+
 ```
 # to download
 wget https://polybox.ethz.ch/index.php/s/w3To3lCCnwIPDlz/download -O fancy_sigcomm_inputs.tar.gz
