@@ -11,5 +11,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # start server
+    print("Start command server")
     s = CommandServer(int(args.port))
     s.run()

@@ -1,2 +1,3 @@
 plots/*
-precomputed*/*
+plot*
+precomputed_inputs*

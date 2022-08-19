@@ -1,7 +1,7 @@
 # FANcY: FAst In-Network GraY Failure Detection for ISPs
 
 This repo contains the implementation of the paper [FANcY: FAst In-Network GraY
-Failure Detection for ISPs](./) by Edgar Costa Molero, Stefano Visicchio and
+Failure Detection for ISPs](https://nsg.ee.ethz.ch/fileadmin/user_upload/publications/nsg_fancy_sigcomm22.pdf) by Edgar Costa Molero, Stefano Visicchio and
 Laurent Vanbever. This work will be presented at [SIGCOMM
 '22](https://conferences.sigcomm.org/sigcomm/2022/cfp.html)
 
@@ -37,7 +37,7 @@ and demonstrate how it enables fine-grained fast rerouting.
 
 * **Tofino:** contains the hardware-based implementation of `FANcY`, its
   controller and some helper scripts. Furthermore, it contains a guide to
-  reproducing the `case study` and `figure 8` from the paper.
+  reproducing the `case study` and `figure 8` from the paper. You will find an implementation in P4_14 and P4_16.
 
 ## Quick Install
 

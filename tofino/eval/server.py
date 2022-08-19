@@ -60,11 +60,19 @@ class KThread(Thread):
     def kill(self):
         self.killed = True
 
+
 # Helpers to send big packets
+import sys
+PY2 = False
+if sys.version_info < (3, 0):
+    PY2 = True
 
 
 def send_msg(sock, msg):
-    msg = struct.pack('>I', len(msg)) + msg
+    if PY2:
+        msg = struct.pack('>I', len(msg)) + msg
+    else:
+        msg = len(msg).to_bytes(4, byteorder='big') + msg
     sock.sendall(msg)
 
 
@@ -73,19 +81,24 @@ def recv_msg(sock):
     raw_msglen = recvall(sock, 4)
     if not raw_msglen:
         return None
-    msglen = struct.unpack('>I', raw_msglen)[0]
+    if PY2:
+        msglen = struct.unpack('>I', raw_msglen)[0]
+    else:
+        msglen = int.from_bytes(raw_msglen, byteorder='big')
     # Read the message data
     return recvall(sock, msglen)
 
 
 def recvall(sock, n):
     # Helper function to recv n bytes or return None if EOF is hit
-    data = ''
+    if PY2:
+        data = ''
+    else:
+        data = b''
     while len(data) < n:
         packet = sock.recv(n - len(data))
         if not packet:
             return None
-
         data += packet
     return data
 
@@ -130,7 +143,7 @@ class ClientTCP(object):
             try:
                 # creates socket and connects if necessary
                 self.connect(server)
-                send_msg(self.sock, pickle.dumps(msg))
+                send_msg(self.sock, pickle.dumps(msg, protocol=2))
                 # breaks the while
                 break
 
@@ -306,5 +319,3 @@ class TofinoCommandServer(object):
                 exec(cmd)
             else:
                 print("Invalid command type")
-
-#  client.send({"type": "terminate"}, src)
